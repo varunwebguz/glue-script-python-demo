@@ -3,7 +3,7 @@ import sys,json,logging
 import pprint
  
  
-# AWS
+
 from awsglue.transforms import *
 from awsglue.utils import getResolvedOptions
 from awsglue.context import GlueContext
