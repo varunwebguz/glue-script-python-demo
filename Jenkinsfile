@@ -3,7 +3,7 @@ env.TERRAFORM_VERSION = '0.14.10'
 env.TERRAGRUNT_VERSION = '0.28.19'
 env.AUTH_TYPE = 'federation'
 String containerImage  = 'registry.test.com/enterprise-devops/aws-d-megatainer'
-String containerVersion = '1.0.9'
+String containerVersion = '1.0.10'
 
 String branchName = env.BRANCH_NAME
 String envName = 'FIXME'
