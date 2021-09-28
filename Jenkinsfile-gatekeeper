@@ -6,7 +6,7 @@ String containerImage  = 'registry.test.com/enterprise-devops/aws-d-megatainer'
 String containerVersion = '1.0.9'
 
 testBuildFlow {
-    cloudName = '<AWS_EKS_JENKINS_GATEKEEPER_CLOUD_NAME>'
+    cloudName = '<AWS_EKS_JENKINS_GATEKEEPER_CLOUD>'
     githubConnectionName = 'test-github'
     phases = [
         [
