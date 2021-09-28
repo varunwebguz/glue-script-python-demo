@@ -9,6 +9,6 @@ cd "$(dirname "${0}")/module/aws/commands" || true
 source pre.sh
 cd "../${MODULE_NAME}" || true
 
-# tfenv converts all environment variables to TF_VAR's
+
 source <(tfenv)
 terragrunt apply ${TFTG_CLI_ARGS_APPLY_MODULE}
