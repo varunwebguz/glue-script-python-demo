@@ -3,7 +3,7 @@ cmd = run //third_party/aws_fed:federate --
 subcommand = local
 subcommand = dev
 subcommand = test
-subcommand = prod
+
 
 [alias "tfinit"]
 cmd = run //module/aws:init_module
