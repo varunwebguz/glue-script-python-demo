@@ -1,3 +1,6 @@
+
+
+
 resource "aws_kms_key" "networkflex_aurora_key" {
   deletion_window_in_days = 7
   description             = "CMK for postgresql aurora cluster"
