@@ -1,0 +1,75 @@
+[alias "fed"]
+cmd = run //third_party/aws_fed:federate --
+subcommand = local
+subcommand = dev
+subcommand = test
+subcommand = prod
+
+[alias "tfinit"]
+cmd = run //module/aws:init_module
+
+[alias "plan"]
+cmd = run //module/aws:plan_module
+
+[alias "apply"]
+cmd = run //module/aws:apply_module
+
+[alias "output"]
+cmd = run //module/aws:output_module
+
+[alias "output_all"]
+cmd = run //module/aws:output_all
+
+[alias "destroy"]
+cmd = run //module/aws:destroy_module
+
+[alias "plan_all"]
+cmd = run //module/aws:plan_all
+
+[alias "deploy"]
+cmd = run //module/aws:deploy
+
+[alias "tag"]
+cmd = run //utilities:tag_release
+
+[alias "ctal_test"]
+cmd = run //test/cloud_test_automation_library:execute
+
+[alias "ui_test"]
+cmd = run //test/ui/web-bdd-template:execute
+
+[alias "api_test"]
+cmd = run //test/api/atdd-api-framework:execute
+
+[build]
+path = /home/jenkins/.nvm/versions/node/v14.16.0/bin:/home/jenkins/.local/bin:/home/jenkins/go/bin:/home/jenkins/.bin:/home/jenkins/.please:/home/jenkins/.local/bin:/home/jenkins/go/bin:/home/jenkins/.bin:/home/jenkins/.please:/var/lang/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin:/home/jenkins/.dotnet/tools
+timeout = 7200 # in seconds (2 hours)
+PassEnv = AUTH_TYPE
+PassEnv = ARTIFACTS_REPO
+PassEnv = TERRAFORM_VERSION
+PassEnv = TERRAGRUNT_VERSION
+PassEnv = GOPROXY
+PassEnv = AWS_CSM_ENABLED
+PassEnv = AWS_FED_USERNAME
+PassEnv = AWS_FED_PASSWORD
+PassEnv = ENV
+
+[buildenv]
+aws-shared-credentials-file = /home/jenkins/.aws/credentials
+
+[buildconfig]
+; Cloud Test Automation library feature file.
+; If you want to execute all the feature file use ".feature".
+; For individual file specify file name "sample_s3.feature".
+cloud-test-feature-name = .feature
+profile = saml
+
+[please]
+SelfUpdate = false
+
+[python]
+moduleDir = third_party/python
+defaultPipRepo = https://repo.sys.test.com/artifactory/api/pypi/pypi-repos/simple
+PipFlags = --index-url https://repo.sys.test.com/artifactory/api/pypi/pypi-repos/simple --trusted-host repo.sys.test.com
+UsePyPI = true
+TestRunner = pytest

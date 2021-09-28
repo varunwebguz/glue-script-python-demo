@@ -1,0 +1,73 @@
+# The .gitconfig file provides a powerful way to save non-default settings so that you don't have to reapply them repetitously.
+# It is important to understand the different levels which git will look for these settings.
+# First, it will look at the local copy for each repository, then the global copy across all repositories for a user, and finally
+# in the system copy which applies for all users on the system and all of their repositories.
+#
+# Reference https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration for great explanations of gitconfig files, different
+# types of options, and how to configure them.
+#
+# Each of the options below are commented out with the leading # character. Many of them can be used as is by removing the #, 
+# but some would require changes or are dependent on other software (editors), etc.
+
+[user]
+#   name = Pat Simian
+#   email = pat.simiam@test.com
+
+[commit]
+  #template = .github/.gitmessage
+
+[core]
+#   editor = vim
+#   editor = atom
+#   editor = emacs
+#   editor = nano
+#   editor = \"C:\\\\Program Files (x86)\\\\Notepad++\\\\notepad++.exe\" -multiInst -notabbar -nosession -noPlugin
+#   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
+# For Windows
+#   autocrlf = true
+
+# For Unix
+#   autocrlf = input
+
+[help]
+#   autocorrect = 10
+
+[web]
+#   browser = google-chrome
+
+[merge]
+#   tool = kdiff3
+
+[alias]
+#   s = status
+#   d = diff
+#   c = commit
+#   o = checkout
+#   b = branch
+#   f = fetch
+#   m = merge
+#   ps = push
+#   pl = pull
+#   r = remote
+#   w = show
+
+[color]
+#   ui = true
+	
+[color "branch"]
+#   current = yellow bold
+#   local = green bold
+#   remote = cyan bold
+	
+[color "diff"]
+#   meta = yellow bold
+#   frag = magenta bold
+#   old = red bold
+#   new = green bold
+#   whitespace = red reverse
+	
+[color "status"]
+#   added = green bold
+#   changed = yellow bold
+#   untracked = red bold

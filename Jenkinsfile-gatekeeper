@@ -1,0 +1,125 @@
+@Library('conduit@latest') _
+env.TERRAFORM_VERSION = '0.14.10'
+env.TERRAGRUNT_VERSION = '0.28.19'
+env.AUTH_TYPE = 'gatekeeper'
+String containerImage  = 'registry.test.com/enterprise-devops/aws-d-megatainer'
+String containerVersion = '1.0.9'
+
+testBuildFlow {
+    cloudName = '<AWS_EKS_JENKINS_GATEKEEPER_CLOUD_NAME>'
+    githubConnectionName = 'test-github'
+    phases = [
+        [
+            lintingTypes    : [
+                'plz': [
+                    verbosityFlag: '-vvv'
+                ]
+            ],
+            pleaseContainerImage  : "${containerImage}",
+            pleaseContainerVersion: "${containerVersion}",
+            branchPattern   : '.*',
+            sdlcEnvironment : 'Non-Prod',
+            runInAWS: false,
+            cloudName: '<OPENSHIFT_JENKINS_CLOUD_NAME>'
+        ],
+        [
+            buildType       : 'plz',
+            container: [
+                image  : "${containerImage}",
+                version: "${containerVersion}",
+            ],
+            branchPattern   : '.*',
+            sdlcEnvironment : 'Non-Prod',
+            runInAWS: false,
+            cloudName: '<OPENSHIFT_JENKINS_CLOUD_NAME>',
+            veracode        : [
+                credentialsId           : '<AWS_VERACODE_SCAN_CREDS_STORED_IN_JENKINS_HERE>',
+                zipUploadIncludesPattern: true,
+                settings                : [
+                    applicationName         : '<team-veracode-application-name>',
+                    scanName                : '<team-veracode-app-scan-name>',
+                    teams                   : '<VERACODE_TEAM_NAME_HERE>',
+                    uploadExcludesPattern   : 'plz-out/gen/lib/python/.rule*.zip',
+                    uploadIncludesPattern   : 'plz-out/gen/lib/python/*.zip',
+                    zipUploadIncludesPattern: false
+                ]
+            ],
+            sonarQube       : [
+                credentialsId       : 'sonarqube-service-id',
+                scannerProperties   : [
+                    'sonar.projectKey=<team-sonar-project-key>',
+                    'sonar.projectName=<team-sonar-project-name>',
+                    'sonar.analysis.ciid=CIThisisALib',
+                    'sonar.sources=.',
+                    'sonar.inclusions=**/*.py',
+                ],
+            ],
+        ],
+        [
+            runInAWS: true,
+            cloudName: '<AWS_EKS_JENKINS_GATEKEEPER_CLOUD_NAME>',
+            aws: 
+            [
+                cloudServiceAccountName: '<EKS namespace SA, default is jenkins-robot>',
+                targetAccount: '<DEFAULT_ACCOUNT_NUMBER>',
+                accountRoleName: '<AWS_ACCOUNT_ROLE_NAME>',
+                region: 'us-east-1'
+            ],
+            branchPattern   : '.*|develop|release',
+            container: [
+                image  : "${containerImage}",
+                version: "${containerVersion}"
+            ],
+            deploymentType  : 'plz',
+            alias           : 'deploy',
+            extraArgs       : 'dev',
+            verbosityFlag   : '-vvv',
+            sdlcEnvironment : 'dev',
+            isProductionDeployment: false
+        ],
+        [
+            runInAWS: true,
+            cloudName: '<AWS_EKS_JENKINS_GATEKEEPER_CLOUD_NAME>',
+            aws: 
+            [
+                cloudServiceAccountName: '<EKS namespace SA, default is jenkins-robot>',
+                targetAccount: '<DEFAULT_ACCOUNT_NUMBER>',
+                accountRoleName: '<AWS_ACCOUNT_ROLE_NAME>',
+                region: 'us-east-1'
+            ],
+            branchPattern   : 'develop|release',
+            container: [
+                image  : "${containerImage}",
+                version: "${containerVersion}"
+            ],
+            deploymentType  : 'plz',
+            alias           : 'deploy',
+            extraArgs       : 'test',
+            verbosityFlag   : '-vvv',
+            sdlcEnvironment : 'test',
+            isProductionDeployment: false
+        ],
+        [
+            runInAWS: true,
+            cloudName: '<AWS_EKS_JENKINS_GATEKEEPER_CLOUD_NAME>',
+            aws: 
+            [
+                cloudServiceAccountName: '<EKS namespace SA, default is jenkins-robot>',
+                targetAccount: '<DEFAULT_ACCOUNT_NUMBER>',
+                accountRoleName: '<AWS_ACCOUNT_ROLE_NAME>',
+                region: 'us-east-1'
+            ],
+            branchPattern   : 'release',
+            container: [
+                image  : "${containerImage}",
+                version: "${containerVersion}"
+            ],
+            deploymentType  : 'plz',
+            alias           : 'deploy',
+            extraArgs       : 'prod',
+            verbosityFlag   : '-vvv',
+            sdlcEnvironment : 'Prod',
+            isProductionDeployment: true
+        ]
+    ]
+}

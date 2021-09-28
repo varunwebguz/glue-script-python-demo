@@ -1,0 +1,5 @@
+; Please config file, this .dev one is dev specific configurations. For more on the config setup, please
+; see the please build documentation: https://please.build/config.html
+
+[buildconfig]
+env = dev

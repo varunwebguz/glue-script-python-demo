@@ -1,0 +1,30 @@
+# IDE
+.idea/
+target/
+*.iml
+.vscode
+
+# Local .terraform directories
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+
+
+__pycache__
+.pytest
+
+
+# Please output directory
+plz-out
+
+# Env Specific
+env.sh
+env.list
+.plzconfig.local
+.plz_clean_*
+local_backend_vars.tfvars
+local.tfvars
+
+# MacOS stuff
+.DS_Store
+
